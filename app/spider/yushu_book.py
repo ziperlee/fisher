@@ -1,18 +1,19 @@
 """
  Create by zipee on 2018/6/10.
 """
-__author__ = 'zipee'
-
-from app.libs.http import Http
+from flask import current_app
+from app.libs.httper import Http
 # from .persistence import MySQL
 # from app import cache
+
+__author__ = 'zipee'
+
 
 
 class YuShuBook:
     """
         鱼书API提供数据
     """
-    per_page = 15
     # isbn_url = 'https://api.douban.com/v2/book/isbn/{}'
     # keyword_url = 'https://api.douban.com/v2/book/search?q={}&count={}&start={}'
     isbn_url = 'http://t.yushu.im/v2/book/isbn/{}'
@@ -23,24 +24,31 @@ class YuShuBook:
         self.books = []
 
     # @cache.memoize(timeout=60)
-    def search_by_isbn(self, isbn):
+    @classmethod
+    def search_by_isbn(cls, isbn):
         """
             isbn搜索的结果可以被缓存
         """
-        url = self.isbn_url.format(isbn)
+        url = cls.isbn_url.format(isbn)
         result = Http.get(url)
         # self.__fill_single(result)
         return result
 
-    def search_by_keyword(self, keyword, page):
+    @classmethod
+    def search_by_keyword(cls, keyword, page):
         """
             keyword不缓存，意义不大
         """
         page = int(page)
-        url = self.keyword_url.format(keyword, self.per_page, self.per_page * (page - 1))
+        url = cls.keyword_url.format(keyword, current_app.config['PER_PAGE'],
+                                     cls.calculate_start(page))
         result = Http.get(url)
         # self.__fill_collection(result)
         return result
+
+    @staticmethod
+    def calculate_start(page):
+        return current_app.config['PER_PAGE'] * (page - 1)
 
     @property
     def first(self):
