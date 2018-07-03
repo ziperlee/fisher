@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 requests = "*"
 wtforms = "*"
 pymysql = "*"
+wtform = "*"
 
 [dev-packages]
 

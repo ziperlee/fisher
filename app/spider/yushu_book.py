@@ -24,26 +24,26 @@ class YuShuBook:
         self.books = []
 
     # @cache.memoize(timeout=60)
-    @classmethod
-    def search_by_isbn(cls, isbn):
+    # @classmethod
+    def search_by_isbn(self, isbn):
         """
             isbn搜索的结果可以被缓存
         """
-        url = cls.isbn_url.format(isbn)
+        url = self.isbn_url.format(isbn)
         result = Http.get(url)
-        # self.__fill_single(result)
+        self.__fill_single(result)
         return result
 
-    @classmethod
-    def search_by_keyword(cls, keyword, page):
+    # @classmethod
+    def search_by_keyword(self, keyword, page):
         """
             keyword不缓存，意义不大
         """
         page = int(page)
-        url = cls.keyword_url.format(keyword, current_app.config['PER_PAGE'],
-                                     cls.calculate_start(page))
+        url = self.keyword_url.format(keyword, current_app.config['PER_PAGE'],
+                                     self.calculate_start(page))
         result = Http.get(url)
-        # self.__fill_collection(result)
+        self.__fill_collection(result)
         return result
 
     @staticmethod

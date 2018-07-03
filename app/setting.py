@@ -6,7 +6,7 @@ __author__ = 'zipee'
 # flask config默认配置DEBUG 为False
 # falsk config配置中所以项必须要大写，否则不读取
 DEBUG = True
-HOST = '192.168.190.1'
+HOST = '127.0.0.1'
 PORT = 9000
 PER_PAGE = 15
 
