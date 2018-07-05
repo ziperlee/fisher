@@ -10,6 +10,7 @@ requests = "*"
 wtforms = "*"
 pymysql = "*"
 wtform = "*"
+flask-login = "*"
 
 [dev-packages]
 
