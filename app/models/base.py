@@ -36,7 +36,7 @@ class Base(db.Model):
     status = Column(SmallInteger, default=1)
 
     def __init__(self):
-        self.create_time = int(datetime.now().timestamp())
+        self.create_time = int(datetime.now().timestamp()) # 注意不能再类变量中使用default定义时间，这样会导致所有的时间都是相同的
 
     def set_attrs(self, attrs_dict):
         for key, value in attrs_dict.items():

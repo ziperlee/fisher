@@ -1,14 +1,13 @@
 from flask import flash, redirect, url_for, render_template, request
-# from flask.ext.login import current_user
 
 # from app.libs.email import send_mail
-# from app.models.base import db
-# from app.models.gift import Gift
-# from app.models.wish import Wish
-# from app.view_models.trade import MyTrades
+from app.models.base import db
+from app.models.gift import Gift
+from app.models.wish import Wish
+from app.view_models.trade import MyTrades
 from . import web
 # from app import limiter
-# from flask_login import login_required
+from flask_login import login_required, current_user
 
 
 def limit_key_prefix():
@@ -43,7 +42,7 @@ def save_to_wish(isbn):
 
 @web.route('/satisfy/wish/<int:wid>')
 # @limiter.limit(key_func=limit_key_prefix)
-# @login_required
+@login_required
 def satisfy_wish(wid):
     wish = Wish.query.get_or_404(wid)
     gift = Gift.query.filter_by(uid=current_user.id, isbn=wish.isbn).first()
@@ -59,7 +58,7 @@ def satisfy_wish(wid):
 
 
 @web.route('/wish/book/<isbn>/redraw')
-# @login_required
+@login_required
 def redraw_from_wish(isbn):
     wish = Wish.query.filter_by(isbn=isbn, launched=False).first_or_404()
     with db.auto_commit():

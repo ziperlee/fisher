@@ -3,9 +3,13 @@
 """
 import json
 
+from flask_login import current_user
 from wheel.signatures.djbec import q
 
+from app.models.gift import Gift
+from app.models.wish import Wish
 from app.view_models.book import BookViewModel, BookCollection, _BookViewModel
+from app.view_models.trade import TradeInfo
 
 __author__ = 'zipee'
 
@@ -62,7 +66,7 @@ def book_detail(isbn):
 
     # MVC MVT
 
-    if current_user.is_authenticated:
+    if current_user.is_authenticated: # 判断用户是否登录
         if Gift.query.filter_by(uid=current_user.id, isbn=isbn,
                                 launched=False).first():
             has_in_gifts = True
@@ -70,11 +74,11 @@ def book_detail(isbn):
                                 launched=False).first():
             has_in_wishes = True
 
-    # trade_gifts = Gift.query.filter_by(isbn=isbn, launched=False).all()
-    # trade_wishes = Wish.query.filter_by(isbn=isbn, launched=False).all()
+    trade_gifts = Gift.query.filter_by(isbn=isbn, launched=False).all()
+    trade_wishes = Wish.query.filter_by(isbn=isbn, launched=False).all()
 
-    # trade_wishes_model = TradeInfo(trade_wishes)
-    # trade_gifts_model = TradeInfo(trade_gifts)
+    trade_wishes_model = TradeInfo(trade_wishes)
+    trade_gifts_model = TradeInfo(trade_gifts)
 
     return render_template('book_detail.html',
                            book=book, wishes=trade_wishes_model,

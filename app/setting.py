@@ -9,6 +9,8 @@ DEBUG = True
 HOST = '127.0.0.1'
 PORT = 9000
 PER_PAGE = 15
+BEANS_UPLOAD_ONE_BOOK = 0.5
+RECENT_BOOK_COUNT = 30
 
 # http://t.yushu.im
 # 关键字搜索

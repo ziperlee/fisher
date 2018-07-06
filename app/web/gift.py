@@ -1,15 +1,15 @@
 # from app.libs.enums import PendingStatus
-# from app.models.base import db
+from app.models.base import db
 # from app.models.drift import Drift
-# from app.models.gift import Gift
-# from app.view_models.trade import MyTrades
+from app.models.gift import Gift
+from app.view_models.trade import MyTrades
 from . import web
 from flask import current_app, flash, redirect, url_for, render_template
-# from flask_login import login_required, current_user
+from flask_login import login_required, current_user
 
 
 @web.route('/my/gifts')
-# @login_required
+@login_required
 def my_gifts():
     uid = current_user.id
     gifts_of_mine = Gift.get_user_gifts(uid)
@@ -20,8 +20,9 @@ def my_gifts():
 
 
 @web.route('/gifts/book/<isbn>')
-# @login_required
+@login_required
 def save_to_gifts(isbn):
+    # current_user 是flask_login实力化的user模型，通过get_id获取数据
     if current_user.can_save_to_list(isbn):
         # 事务
         # rollback
@@ -37,7 +38,7 @@ def save_to_gifts(isbn):
 
 
 @web.route('/gifts/<gid>/redraw')
-# @login_required
+@login_required
 def redraw_from_gifts(gid):
     gift = Gift.query.filter_by(id=gid, launched=False).first_or_404()
     drift = Drift.query.filter_by(
