@@ -6,8 +6,10 @@ __author__ = 'zipee'
 from flask import Flask
 from app.models import db
 from flask_login import LoginManager
+from flask_mail import Mail
 
 login_manager = LoginManager()
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -18,6 +20,8 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'web.login' # 指定在未登录情况下重定向页面
     login_manager.login_message = '请先登录或注册'
+
+    mail.init_app(app)
 
     db.init_app(app)
     db.create_all(app=app)

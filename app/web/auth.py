@@ -67,7 +67,7 @@ def forget_password(token):
 
 
 @web.route('/change/password', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def change_password():
     form = ChangePasswordForm(request.form)
     if request.method == 'POST' and form.validate():
