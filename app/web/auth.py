@@ -1,6 +1,7 @@
 
 from app.forms.auth import RegisterForm, LoginForm, EmailForm, ResetPasswordForm, \
     ChangePasswordForm
+from app.libs.email import send_mail
 from app.models.base import db
 from app.models.user import User
 from . import web

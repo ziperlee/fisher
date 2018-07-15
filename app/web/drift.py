@@ -1,21 +1,21 @@
-# from app.forms.book import DriftForm
-# from app.libs.email import send_mail
-# from app.libs.enums import PendingStatus
-# from app.models.base import db
-# from app.models.drift import Drift
-# from app.models.gift import Gift
-# from app.models.user import User
-# from app.models.wish import Wish
-# from app.view_models.book import BookViewModel
-# from app.view_models.drift import DriftCollection
+from app.forms.book import DriftForm
+from app.libs.email import send_mail
+from app.libs.enums import PendingStatus
+from app.models.base import db
+from app.models.drift import Drift
+from app.models.gift import Gift
+from app.models.user import User
+from app.models.wish import Wish
+from app.view_models.book import BookViewModel
+from app.view_models.drift import DriftCollection
 from . import web
-# from flask_login import login_required, current_user
+from flask_login import login_required, current_user
 from flask import flash, redirect, url_for, render_template, request, current_app
 from sqlalchemy import desc, or_
 
 
 @web.route('/drift/<int:gid>', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def send_drift(gid):
     current_gift = Gift.query.get_or_404(gid)
 
@@ -43,7 +43,7 @@ def send_drift(gid):
 
 
 @web.route('/pending')
-# @login_required
+@login_required
 def pending():
     drifts = Drift.query.filter(
         or_(Drift.requester_id == current_user.id,
@@ -55,7 +55,7 @@ def pending():
 
 
 @web.route('/drift/<int:did>/reject')
-# @login_required
+@login_required
 def reject_drift(did):
     with db.auto_commit():
         drift = Drift.query.filter(Gift.uid == current_user.id,
@@ -67,11 +67,12 @@ def reject_drift(did):
 
 
 @web.route('/drift/<int:did>/redraw')
-# @login_required
+@login_required
 def redraw_drift(did):
-    # 超权
+    # 超权 用户1可能修改了其他用户的鱼漂，所以必须判断当前用户和当前鱼漂的关系
     # uid :1  did:1
     # uid :2  did:2
+    # 最好写成ajax，没必要重定向会相同的页面
     with db.auto_commit():
         drift = Drift.query.filter_by(
             requester_id=current_user.id, id=did).first_or_404()
@@ -81,7 +82,7 @@ def redraw_drift(did):
 
 
 @web.route('/drift/<int:did>/mailed')
-# @login_required
+@login_required
 def mailed_drift(did):
     with db.auto_commit():
         drift = Drift.query.filter_by(
@@ -102,7 +103,7 @@ def save_drift(drift_form, current_gift):
     with db.auto_commit():
         drift = Drift()
         # drift.message = drift_form.message.data
-        drift_form.populate_obj(drift)
+        drift_form.populate_obj(drift)   # 将form中的数据快速复制到模型中
 
         drift.gift_id = current_gift.id
         drift.requester_id = current_user.id

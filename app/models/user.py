@@ -3,7 +3,7 @@
 """
 __author__ = 'zipee'
 
-# from app.libs.enums import PendingStatus
+from app.libs.enums import PendingStatus
 from math import floor
 from app.models.base import db, Base
 from flask import current_app
@@ -14,7 +14,7 @@ from sqlalchemy import Column, Integer, String, Boolean, Float
 from flask_login import UserMixin
 from app import login_manager
 from app.libs.helper import is_isbn_or_key
-# from app.models.drift import Drift
+from app.models.drift import Drift
 from app.models.gift import Gift
 from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook

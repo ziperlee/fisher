@@ -76,7 +76,7 @@ class Gift(Base):
         recent_gift = Gift.query.filter_by(
             launched=False).group_by(
             Gift.isbn).order_by(
-            desc(Gift.create_time)).limit(
+            Gift.create_time).limit(
             current_app.config['RECENT_BOOK_COUNT']).distinct().all()
         return recent_gift
 

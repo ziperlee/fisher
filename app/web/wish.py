@@ -1,6 +1,6 @@
 from flask import flash, redirect, url_for, render_template, request
 
-# from app.libs.email import send_mail
+from app.libs.email import send_mail
 from app.models.base import db
 from app.models.gift import Gift
 from app.models.wish import Wish
